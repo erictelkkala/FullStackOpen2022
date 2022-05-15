@@ -1,7 +1,7 @@
 # Part 2
 
-## Courseinfo took me 1 hour to complete
+## Courseinfo (2a) took me 2 hours to complete
 
-## XYZ took me x hour to complete
+## Forms (2b) took me x hour to complete
 
 ## ZYX took x hour to complete
