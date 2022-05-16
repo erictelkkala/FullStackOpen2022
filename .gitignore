@@ -1,1 +1,14 @@
 FullStack.code-workspace
+part2/notes/.gitignore
+part2/notes/package-lock.json
+part2/notes/package.json
+part2/notes/README.md
+part2/notes/public/favicon.ico
+part2/notes/public/index.html
+part2/notes/public/logo192.png
+part2/notes/public/logo512.png
+part2/notes/public/manifest.json
+part2/notes/public/robots.txt
+part2/notes/src/App.js
+part2/notes/src/index.js
+part2/notes/src/components/Note.js
