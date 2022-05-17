@@ -4,4 +4,6 @@
 
 ## Phonebook (2b) took me 3 hour to complete
 
-## ZYX took x hour to complete
+## Phonebook step 6 (2c 2.11) took me 15 minutes to complete
+
+## Data for countries (2c 2.12 - 2.14) took me x hour to complete
