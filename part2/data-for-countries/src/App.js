@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import filterForm from "./components/FilterForm";
+import FilterForm from "./components/FilterForm";
 import RenderCountryList from "./components/RenderCountries";
 import filterArray from "./components/FilterArray";
 import axios from "axios";
@@ -33,7 +33,7 @@ const App = () => {
   return (
     <div>
       <h2>Data for countries</h2>
-      {filterForm(filter, handleFilterChange)}
+      {FilterForm(filter, handleFilterChange)}
       {RenderCountryList(filterArray(filter, countries), filter)}
     </div>
   );
