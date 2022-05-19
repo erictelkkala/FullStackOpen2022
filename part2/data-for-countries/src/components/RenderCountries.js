@@ -1,4 +1,13 @@
-const RenderCountryList = (countries) => {
+import { useState, useEffect } from "react";
+
+const RenderCountryList = (countries, filter) => {
+  const [country, setCountry] = useState("");
+
+  // Reset the view when the filter changes
+  useEffect(() => {
+    setCountry("");
+  }, [filter]);
+
   // If there's more than 10 countries, display an "error"
   if (countries.length > 10) {
     return <div>Too many matches, specify another filter</div>;
@@ -8,12 +17,18 @@ const RenderCountryList = (countries) => {
     // If there's only one country, display the country information
   } else if (countries.length === 1) {
     return CountryInfo(countries[0]);
+    // If the user has clicked the show button for one of the countries, display the country information
+  } else if (country !== "") {
+    return CountryInfo(country);
   } else {
     // Else return the list of the countries
     return (
       <div>
         {countries.map((country) => (
-          <div key={country.name.common}>{country.name.common}</div>
+          <div key={country.name.common}>
+            {country.name.common}
+            <button onClick={() => setCountry(country)}>show</button>
+          </div>
         ))}
       </div>
     );

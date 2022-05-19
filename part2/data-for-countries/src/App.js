@@ -34,7 +34,7 @@ const App = () => {
     <div>
       <h2>Data for countries</h2>
       {filterForm(filter, handleFilterChange)}
-      {RenderCountryList(filterArray(filter, countries))}
+      {RenderCountryList(filterArray(filter, countries), filter)}
     </div>
   );
 };
