@@ -14,42 +14,64 @@ const RenderCountryList = (countries, filter) => {
 
   // Reset the view when the filter changes
   useEffect(() => {
-    setCountry("");
-    setWeather(null);
+    clearCountry();
   }, [filter]);
 
   // Get the country information when the country changes
   useEffect(() => {
+    // If the country is not empty set the country information
     if (country) {
       setName(country.name.common);
       setCapital(country.capital);
       setArea(country.area);
       setLanguages(Object.values(country.languages));
       setFlag(country.flags.svg);
+      // Finally run the weather function
+      getWeather();
+
+      // Get the weather information
+      async function getWeather() {
+        // Check that the capital is not empty
+        if (capital !== "") {
+          await axios
+            .get(
+              `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
+            )
+            .then((response) => {
+              // console.log(response.data);
+              setWeather(response.data);
+            });
+        }
+      }
     }
-  }, [country]);
+  }, [capital, country, setWeather]);
 
   function handleCountryChange(country) {
-    console.log("Handled country change: ", country.name.common);
+    // console.log("Handled country change: ", country.name.common);
     setCountry(country);
   }
 
-  const CountryInfo = (country) => {
-    const Weather = (country) => {
+  // Clear the country information
+  // => If this is not done, it will query the API multiple times when a new country is selected
+  function clearCountry() {
+    setCountry("");
+    setName("");
+    setCapital("");
+    setArea(0);
+    setLanguages([]);
+    setFlag("");
+    setWeather(null);
+  }
+
+  const CountryInfo = () => {
+    // Weather component
+    const Weather = () => {
       if (weather === null) {
-        axios
-          .get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
-          )
-          .then((response) => {
-            console.log(response.data);
-            setWeather(response.data);
-          });
         return <p>Loading weather...</p>;
       } else {
         return (
           <div>
-            <h2>Weather in {country.capital}</h2>
+            <h2>Weather in {capital}</h2>
             <p>
               <b>temperature:</b> {weather.main.temp} Celsius
             </p>
@@ -109,11 +131,11 @@ const RenderCountryList = (countries, filter) => {
   // If there's more than 10 countries, display an "error"
   if (countries.length > 10) {
     return <div>Too many matches, specify another filter</div>;
-    // If there's only one country, display the country information
+    // If there's only one country, set the country
   } else if (country !== "") {
     return <CountryInfo country={country} />;
+    // If there's more than 1 return the list of the countries
   } else if (countries.length > 1) {
-    // Else return the list of the countries
     return (
       <div>
         {countries.map((country) => (
@@ -128,7 +150,7 @@ const RenderCountryList = (countries, filter) => {
   } else if (countries.length === 0) {
     return <div>No matches, specify another filter</div>;
   } else {
-    // If the user has clicked the show button for one of the countries, display the country information
+    // If the user has clicked the show button for one of the countries or there's only one country to show, display the country information
     // => country variable has a value
     handleCountryChange(countries[0]);
   }
