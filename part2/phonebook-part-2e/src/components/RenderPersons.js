@@ -1,6 +1,6 @@
 const renderPersons = (persons, removePerson) => {
-  const handleDeleteButton = (name, id) => {
-    console.log(name, id);
+  const handleDeleteButton = (id, name) => {
+    // console.log(name, id);
     removePerson(name, id);
   };
 

@@ -39,89 +39,56 @@ const App = () => {
     // Check if the name is in the list already
     if (!checkName(nameObject, persons, updatePerson)) {
       // Append the new person to the list if the response was successful
-      PersonService.create(nameObject)
-        .then((response) => {
-          setPersons(persons.concat(response));
-          // Set the success message
-          setSuccessMessage(`Added ${newName}`);
-          // Remove the notification after 5 seconds
-          setTimeout(() => {
-            setSuccessMessage(null);
-          }, 5000);
-          // Reset the form
-          setNewName("");
-          setNewNumber("");
-        })
-        .catch((error) => {
-          // Set the error message
-          setErrorMessage(error.message);
-          // Remove the notification after 5 seconds
-          setTimeout(() => {
-            setErrorMessage(null);
-          }, 5000);
-        });
+      PersonService.create(nameObject, setSuccessMessage, setErrorMessage).then(
+        (response) => {
+          if (response.name !== undefined || response.name !== null) {
+            setPersons(persons.concat(response));
+            // Reset the form
+            setNewName("");
+            setNewNumber("");
+          }
+        }
+      );
     }
   };
 
   // Event handler for removing a person
-  const removePerson = (name, id) => {
+  const removePerson = (id, name) => {
     // Remove the person from the array
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-      PersonService.remove(id)
-        .then(() => {
-          setSuccessMessage(`Deleted ${name}`);
-          // Remove the notification after 5 seconds
-          setTimeout(() => {
-            setSuccessMessage(null);
-          }, 5000);
-          // Update the list of persons
-          const newList = persons.filter((person) => person.id !== id);
-          setPersons(newList);
-        })
-        .catch((error) => {
-          // If the request can't find the person, display that the person has been deleted already
-          if (error.response.status === 404) {
-            setErrorMessage(
-              `Information of ${name} has already been removed from the server`
-            );
-          } else {
-            // Set the error message
-            setErrorMessage(error.message);
+      PersonService.remove(id, name, setSuccessMessage, setErrorMessage).then(
+        (response) => {
+          if (response !== undefined || response !== null) {
+            // Update the list of persons
+            const newList = persons.filter((person) => person.id !== id);
+            setPersons(newList);
           }
-          // Remove the notification after 5 seconds
-          setTimeout(() => {
-            setErrorMessage(null);
-          }, 5000);
-        });
+        }
+      );
     }
   };
 
   // Event handler for updating a person
   const updatePerson = (id, newObject) => {
-    PersonService.update(id, newObject)
-      .then((response) => {
-        setSuccessMessage(`Updated ${response.name}`);
-        // Remove the notification after 5 seconds
-        setTimeout(() => {
-          setSuccessMessage(null);
-        }, 5000);
+    PersonService.update(
+      id,
+      newObject,
+      setSuccessMessage,
+      setErrorMessage
+    ).then((response) => {
+      console.log(response);
+      if (response !== undefined || response !== null) {
         // Update the list of persons
         const newList = persons.map((person) =>
           person.id === id ? response : person
         );
+        // Update the list of persons
         setPersons(newList);
         // Reset the form
         setNewName("");
         setNewNumber("");
-      })
-      .catch((error) => {
-        // Set the error message
-        setErrorMessage(error.message);
-        // Remove the notification after 5 seconds
-        setTimeout(() => {
-          setErrorMessage(null);
-        }, 5000);
-      });
+      }
+    });
   };
 
   const handleNameChange = (event) => {
