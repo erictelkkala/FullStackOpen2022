@@ -10,4 +10,6 @@
 
 ## Phonebook 2d (2.15 - 2.18) took me 2 hours to complete
 
-## Phonebook 2e (2.19 - 2.20) took me e hours to complete
+## Phonebook 2e (2.19 - 2.20) took me 3 hours to complete
+
+## Total: 16 hours and 15 minutes
